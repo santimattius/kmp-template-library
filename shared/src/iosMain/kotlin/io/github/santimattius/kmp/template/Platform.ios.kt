@@ -1,4 +1,4 @@
-package io.github.santimattius.android.kmp.template
+package io.github.santimattius.kmp.template
 
 import platform.UIKit.UIDevice
 

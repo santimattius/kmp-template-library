@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "kmp-template-library"
 include(":shared")
+includeBuild("plugins")

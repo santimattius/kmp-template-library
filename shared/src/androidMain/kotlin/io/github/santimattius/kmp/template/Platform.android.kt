@@ -1,4 +1,4 @@
-package io.github.santimattius.android.kmp.template
+package io.github.santimattius.kmp.template
 
 class AndroidPlatform : Platform {
     override val name: String = "Android ${android.os.Build.VERSION.SDK_INT}"

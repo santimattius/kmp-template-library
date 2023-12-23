@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinCocoapods)
     alias(libs.plugins.androidLibrary)
+    id("maven-publish")
+    id("publication")
 }
 
 kotlin {
@@ -11,6 +13,7 @@ kotlin {
                 jvmTarget = "1.8"
             }
         }
+        publishLibraryVariants("release", "debug")
     }
     iosX64()
     iosArm64()
@@ -38,7 +41,7 @@ kotlin {
 }
 
 android {
-    namespace = "io.github.santimattius.android.kmp.template"
+    namespace = "io.github.santimattius.kmp.template"
     compileSdk = 34
     defaultConfig {
         minSdk = 24

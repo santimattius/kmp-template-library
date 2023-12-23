@@ -1,4 +1,4 @@
-package io.github.santimattius.android.kmp.template
+package io.github.santimattius.kmp.template
 
 class Greeting {
     private val platform: Platform = getPlatform()
