@@ -1,44 +1,18 @@
-import org.gradle.api.publish.maven.MavenPublication
-import org.gradle.api.tasks.bundling.Jar
-import org.gradle.kotlin.dsl.`maven-publish`
-import org.gradle.kotlin.dsl.signing
-import java.util.*
+import java.util.Properties
 
 plugins {
     `maven-publish`
     signing
 }
 
-// Stub secrets to let the project sync and build without the publication values set up
-extra["signing.keyId"] = null
-extra["signing.password"] = null
-extra["signing.secretKeyRingFile"] = null
-extra["ossrhUsername"] = null
-extra["ossrhPassword"] = null
-
-// Grabbing secrets from local.properties file or from environment variables, which could be used on CI
-val secretPropsFile: File = project.rootProject.file("local.properties")
-if (secretPropsFile.exists()) {
-    secretPropsFile.reader().use {
-        Properties().apply {
-            load(it)
-        }
-    }.onEach { (name, value) ->
-        extra[name.toString()] = value
-    }
-} else {
-    extra["signing.keyId"] = System.getenv("SIGNING_KEY_ID")
-    extra["signing.password"] = System.getenv("SIGNING_PASSWORD")
-    extra["signing.secretKeyRingFile"] = System.getenv("SIGNING_SECRET_KEY_RING_FILE")
-    extra["ossrhUsername"] = System.getenv("OSSRH_USERNAME")
-    extra["ossrhPassword"] = System.getenv("OSSRH_PASSWORD")
-}
+val gradleProperties = gradleProperties()
+val localProperties = gradleProperties("local.properties")
 
 val javadocJar by tasks.registering(Jar::class) {
     archiveClassifier.set("javadoc")
 }
 
-fun getExtraString(name: String) = extra[name]?.toString()
+fun getExtraString(name: String) = localProperties[name]?.toString()
 
 publishing {
     // Configure maven central repository
@@ -58,6 +32,9 @@ publishing {
 
         // Stub javadoc.jar artifact
         artifact(javadocJar.get())
+
+        groupId = gradleProperties["groupId"].toString()
+        version = gradleProperties["version"].toString()
 
         // Provide artifacts information requited by Maven Central
         pom {
@@ -81,7 +58,6 @@ publishing {
             scm {
                 url.set("https://github.com/santimattius/kmp-template-library")
             }
-
         }
     }
 }
@@ -90,4 +66,19 @@ publishing {
 
 signing {
     sign(publishing.publications)
+}
+
+fun gradleProperties(fileName: String = "gradle.properties"): MutableMap<String, Any> {
+    val properties = mutableMapOf<String, Any>()
+    val file = project.rootProject.file(fileName)
+    if (file.exists()) {
+        file.reader().use {
+            Properties().apply {
+                load(it)
+            }
+        }.onEach { (name, value) ->
+            properties[name.toString()] = value
+        }
+    }
+    return properties
 }
