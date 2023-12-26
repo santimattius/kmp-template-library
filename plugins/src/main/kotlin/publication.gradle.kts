@@ -12,6 +12,11 @@ val javadocJar by tasks.registering(Jar::class) {
     archiveClassifier.set("javadoc")
 }
 
+val signingTasks = tasks.withType<Sign>()
+tasks.withType<AbstractPublishToMaven>().configureEach {
+    dependsOn(signingTasks)
+}
+
 fun getExtraString(name: String) = localProperties[name]?.toString()
 
 publishing {
@@ -74,10 +79,11 @@ publishing {
 // Signing artifacts. Signing.* extra properties values will be used
 
 signing {
-//    useInMemoryPgpKeys(
-//        localProperties["signing.privateKey"].toString(),
-//        localProperties["signing.password"].toString()
-//    )
+    useInMemoryPgpKeys(
+        getExtraString("signing.keyId"),
+        getExtraString("signing.key"),
+        getExtraString("signing.password"),
+    )
     sign(publishing.publications)
 }
 
