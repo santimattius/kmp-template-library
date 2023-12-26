@@ -26,7 +26,7 @@ jobs:
       - name: Configure JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 14
+          java-version: 17
       - name: Secrets
         run: |
           echo signing.keyId="$KEY_ID" > ./local.properties 
@@ -43,7 +43,7 @@ jobs:
           GPG_PRIVATE_PASSWORD: ${{ secrets.GPG_PRIVATE_PASSWORD }}
       - name: Publish
         run: |
-          ./gradlew :share:publishAllPublicationsToSonatypeRepository
+          ./gradlew :shared:publishAllPublicationsToSonatypeRepository
 
   finalize:
     runs-on: ubuntu-latest
