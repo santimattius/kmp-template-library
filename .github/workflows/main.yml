@@ -43,7 +43,7 @@ jobs:
           GPG_PRIVATE_PASSWORD: ${{ secrets.GPG_PRIVATE_PASSWORD }}
       - name: Publish
         run: |
-          ./gradlew publishAllPublicationsToSonatypeRepository
+          ./gradlew :share:publishAllPublicationsToSonatypeRepository
 
   finalize:
     runs-on: ubuntu-latest
