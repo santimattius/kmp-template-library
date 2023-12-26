@@ -74,10 +74,10 @@ publishing {
 // Signing artifacts. Signing.* extra properties values will be used
 
 signing {
-    useInMemoryPgpKeys(
-        localProperties["signing.privateKey"].toString(),
-        localProperties["signing.password"].toString()
-    )
+//    useInMemoryPgpKeys(
+//        localProperties["signing.privateKey"].toString(),
+//        localProperties["signing.password"].toString()
+//    )
     sign(publishing.publications)
 }
 
