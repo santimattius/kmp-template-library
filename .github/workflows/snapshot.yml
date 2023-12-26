@@ -1,0 +1,32 @@
+on: [ push ]
+
+jobs:
+  snapshot:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, macOS-latest ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Configure JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Secrets
+        run: |
+          echo signing.keyId="$KEY_ID" > ./local.properties 
+          echo signing.privateKey="$GPG_PRIVATE_KEY" > ./local.properties
+          echo signing.password="$GPG_PRIVATE_PASSWORD" > ./local.properties
+          echo ossrhUsername="$SONATYPE_USERNAME" > ./local.properties
+          echo ossrhPassword="$SONATYPE_PASSWORD" > ./local.properties
+        env:
+          SONATYPE_REPOSITORY_ID: ${{ needs.create_staging_repository.outputs.repository-id }}
+          KEY_ID: ${{ secrets.KEY_ID }}
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PRIVATE_PASSWORD: ${{ secrets.GPG_PRIVATE_PASSWORD }}
+      - name: Publish
+        run: |
+          ./gradlew publishAllPublicationsToSnapshotRepository
