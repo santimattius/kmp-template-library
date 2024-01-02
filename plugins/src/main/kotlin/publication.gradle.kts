@@ -33,7 +33,7 @@ publishing {
 
         maven {
             name = "Snapshot"
-            setUrl { "https://oss.sonatype.org/content/repositories/snapshots/" }
+            setUrl { "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
             credentials {
                 username = getExtraString("ossrhUsername")
                 password = getExtraString("ossrhPassword")
@@ -75,8 +75,6 @@ publishing {
         }
     }
 }
-
-// Signing artifacts. Signing.* extra properties values will be used
 
 signing {
     useInMemoryPgpKeys(
