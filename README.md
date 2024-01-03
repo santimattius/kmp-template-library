@@ -1,4 +1,5 @@
 # KMP Template Library
+Cross-platform library template with base configuration to publish it in maven central.
 
 ## Registering a Sonatype account
 
