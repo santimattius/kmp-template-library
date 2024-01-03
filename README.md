@@ -11,12 +11,11 @@ internet. [The one from GetStream](https://getstream.io/blog/publishing-librarie
 is exhaustive and up to date. You can start by following the first four steps, including "Generating
 a GPG key pair":
 
-1- Register a Jira account with Sonatype (you can use my issue as an example). ✅
-2- Verify your ownership of the group ID you want to use to publish your artifact by creating a
-GitHub repo. ✅
-3- Generate a GPG key pair for signing your artifacts. ✅
-4- Publish your public key. ✅
-5- Export your private key. ✅
+ - Register a Jira account with Sonatype (you can use my issue as an example). ✅
+ - Verify your ownership of the group ID you want to use to publish your artifact by creating a GitHub repo. ✅
+ - Generate a GPG key pair for signing your artifacts. ✅
+ - Publish your public key. ✅
+ - Export your private key. ✅
 
 When the Maven repository and signing keys for your library are prepared, we are ready to move
 forward and set up our build to upload the library artifacts to a staging repository and then
